@@ -46,6 +46,8 @@ class Slideshow extends React.Component {
                 return response.json()
             })
             .then((chapters) => {
+                // Escape tags inside <code>
+                chapters = chapters.map(chapter => chapter.replace(/<code class="([a-z-]*)">((\s|\S)*?)<\/code>/g, (match, grp1, grp2) => '<code class="' + grp1 + '">' + grp2.replace(/<([a-zA-Z/])/g, "&lt;$1") + '</code>'))
                 this.setState({chapters: chapters}, () => {
                     Reveal.initialize({
                         history: true,
