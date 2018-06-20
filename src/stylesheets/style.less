@@ -1,0 +1,313 @@
+@import "~reveal/index.css";
+@import "~reveal/theme/solarized.css";
+@import "~prismjs/themes/prism-tomorrow.css";
+@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
+@import "~prismjs/plugins/line-highlight/prism-line-highlight.css";
+@import "~font-awesome/less/font-awesome.less";
+@import "toggle";
+@import "toolbar";
+
+#app {
+  height: 100%;
+}
+
+.reveal {
+  font-size: 32px;
+
+  i.fa {
+    font-family: FontAwesome;
+    font-style: normal;
+    line-height: normal;
+  }
+
+  .container {
+    display: flex;
+
+    .center {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .col {
+      padding: 1em;
+      flex: 1;
+    }
+
+  }
+
+}
+
+.reveal section.first,
+.reveal section.first h1,
+.reveal section.first h2,
+.reveal section.first h3,
+.reveal section.first h4,
+.reveal section.first h5,
+.reveal section.first h6,
+.reveal section.first p,
+.reveal section.chapter,
+.reveal section.chapter h1,
+.reveal section.chapter h2,
+.reveal section.chapter h3,
+.reveal section.chapter h4,
+.reveal section.chapter h5,
+.reveal section.chapter h6,
+.reveal section.chapter p {
+  text-align: center;
+  color: #fdf6e3;
+}
+
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.reveal table th {
+  font-weight: bold;
+}
+
+.reveal table th,
+.reveal table td {
+  text-align: left;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-bottom: 1px solid;
+}
+
+.reveal table th[align="center"],
+.reveal table td[align="center"] {
+  text-align: center;
+}
+
+.reveal table th[align="right"],
+.reveal table td[align="right"] {
+  text-align: right;
+}
+
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.reveal .masonry {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.reveal .center {
+  text-align: center;
+}
+
+.reveal pre[class*="language-"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reveal pre code {
+  padding: 0;
+}
+
+.reveal .instructions {
+  position: relative;
+  display: flex;
+  background-color: #ccc;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.reveal .instructions:before {
+  font-family: FontAwesome;
+  font-size: 1.2em;
+  color: #3cbd68;
+  content: "\f046";
+}
+
+.reveal .instructions .instructions-content {
+  margin-left: 5px;
+}
+
+.reveal .instructions .instructions-content p {
+  margin: 0;
+}
+
+.reveal section > footer {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reveal section > footer > a {
+  display: block;
+  color: white !important;
+  transition: all 0.5s ease;
+  border-width: 2px !important;
+  border-style: solid !important;
+  background-size: 200% 100% !important;
+  background-position: right bottom !important;
+  margin-bottom: 0.5em;
+}
+
+.reveal section > footer > a:hover {
+  color: white;
+  background-position: left bottom !important;
+}
+
+.reveal section > footer > a:before {
+  font-family: FontAwesome;
+  position: absolute;
+  left: 0;
+  padding: 0 10px;
+}
+
+.reveal section > footer > a:not([href="#"]) {
+  text-decoration: underline;
+}
+
+.reveal section > footer > a.info {
+  background: linear-gradient(to left, #78b9e6 50%, #268bd2 50%);
+  border-color: #268bd2;
+}
+
+.reveal section > footer > a.info:before {
+  content: "\f05a";
+  background-color: #268bd2;
+}
+
+.reveal section > footer > a.warning {
+  background: linear-gradient(to left, #FFC77D 50%, #FFAA39 50%);
+  border: 2px solid #FFAA39;
+}
+
+.reveal section > footer > a.warning:before {
+  content: "\f071";
+  background-color: #FFAA39;
+}
+
+.reveal section > footer > a.danger {
+  background: linear-gradient(to left, #FF7D7D 50%, #FF3939 50%);
+  border: 2px solid #FF3939;
+}
+
+.reveal section > footer > a.danger:before {
+  content: "\f057";
+  background-color: #FF3939;
+}
+
+.reveal section > footer > a.download {
+  background: linear-gradient(to left, #8B59AB 50%, #5B227F 50%);
+  border-color: #5B227F;
+}
+
+.reveal section > footer > a.download:before {
+  content: "\f019";
+  background-color: #5B227F;
+}
+
+.reveal p {
+  text-align: justify;
+}
+
+.reveal blockquote {
+  text-align: left;
+}
+
+.reveal blockquote footer {
+  text-align: right;
+  font-size: 0.8em;
+}
+
+.reveal blockquote footer cite::before {
+  content: '-';
+}
+
+.reveal .block {
+  margin: 10px;
+  padding: 10px;
+  background-color: #002b36;
+}
+
+.reveal .block h4 {
+  color: #fdf6e3;
+}
+
+.reveal .text-hole {
+  border-bottom: black solid 1px;
+}
+
+.reveal code.terminal {
+  background-color: black;
+  color: white;
+  padding: 0 5px;
+}
+
+.reveal .console-error {
+  text-align: left;
+  font-family: "Courier New";
+  font-size: 0.8em;
+  padding-left: 32px;
+  color: red;
+  background-color: #ffd6d5;
+}
+
+.reveal .console-error:before {
+  content: "x";
+  position: absolute;
+  left: 0;
+  color: white;
+  padding: 0 5px;
+  background-color: red;
+  border-radius: 15px;
+  line-height: 21px;
+  height: 20px;
+  width: 10px;
+  margin: 6px;
+  font-size: 18px;
+}
+
+.reveal .line-highlight {
+  margin-top: 20px;
+  background: linear-gradient(to right, hsla(0, 0%, 100%, 0.1) 70%, hsla(0, 0%, 100%, 0));
+}
+
+form.quiz-form {
+
+  div.quiz-options {
+    display: grid;
+    margin: 1em;
+    height: 250px;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+
+    input {
+      display: none;
+    }
+
+    input:checked + label {
+      background-color: #17ff2e;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background-color: #00B7FF;
+      font-size: 2em;
+      cursor: pointer;
+
+      .counter {
+        margin: 0 1em;
+      }
+
+    }
+
+  }
+
+  input[type='submit'] {
+    font-size: 2em;
+  }
+
+}

@@ -1,0 +1,56 @@
+#toolbar {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  text-align: center;
+  font-family: "Lato", sans-serif;
+
+  .tools {
+    display: flex;
+    align-items: center;
+    height: 0;
+    overflow: hidden;
+    border-radius: 0 0 13px 13px;
+    background-color: #00B7FF;
+    transition: height ease-out 0.5s;
+
+    form {
+      display: flex;
+      margin: 10px;
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin: 0 5px;
+
+        label {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .btn-show-tools {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 0 0 100px 100px;
+    font-size: 2em;
+    color: white;
+    background-color: #00B7FF;
+    cursor: pointer;
+
+    i {
+      transition: transform ease-out 0.5s;
+    }
+  }
+
+  .tools.show {
+    height: 50px;
+  }
+
+  .tools.show + .btn-show-tools i {
+    transform: rotate(180deg);
+  }
+}
