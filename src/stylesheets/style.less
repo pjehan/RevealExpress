@@ -138,26 +138,35 @@
   text-align: center;
 }
 
-.reveal section > footer > a {
+.reveal section > footer > a.info,
+.reveal section > footer > a.warning,
+.reveal section > footer > a.danger,
+.reveal section > footer > a.download {
   display: block;
-  color: white !important;
+  color: white;
   transition: all 0.5s ease;
-  border-width: 2px !important;
-  border-style: solid !important;
-  background-size: 200% 100% !important;
-  background-position: right bottom !important;
+  border: 2px solid !important;
+  background-size: 200% 100%;
+  background-position: right bottom;
   margin-bottom: 0.5em;
 }
 
-.reveal section > footer > a:hover {
+.reveal section > footer > a.info:hover,
+.reveal section > footer > a.warning:hover,
+.reveal section > footer > a.danger:hover,
+.reveal section > footer > a.download:hover {
   color: white;
-  background-position: left bottom !important;
+  background-position: left bottom;
 }
 
-.reveal section > footer > a:before {
-  font-family: FontAwesome;
+.reveal section > footer > a.info:before,
+.reveal section > footer > a.warning:before,
+.reveal section > footer > a.danger:before,
+.reveal section > footer > a.download:before {
+  font-family: FontAwesome, serif;
   position: absolute;
   left: 0;
+  height: 100%;
   padding: 0 10px;
 }
 
@@ -166,8 +175,8 @@
 }
 
 .reveal section > footer > a.info {
-  background: linear-gradient(to left, #78b9e6 50%, #268bd2 50%);
-  border-color: #268bd2;
+  background-image: linear-gradient(to left, #78b9e6 50%, #268bd2 50%);
+  border-color: #268bd2 !important;
 }
 
 .reveal section > footer > a.info:before {
@@ -176,8 +185,8 @@
 }
 
 .reveal section > footer > a.warning {
-  background: linear-gradient(to left, #FFC77D 50%, #FFAA39 50%);
-  border: 2px solid #FFAA39;
+  background-image: linear-gradient(to left, #FFC77D 50%, #FFAA39 50%);
+  border-color: #FFAA39 !important;
 }
 
 .reveal section > footer > a.warning:before {
@@ -186,8 +195,8 @@
 }
 
 .reveal section > footer > a.danger {
-  background: linear-gradient(to left, #FF7D7D 50%, #FF3939 50%);
-  border: 2px solid #FF3939;
+  background-image: linear-gradient(to left, #FF7D7D 50%, #FF3939 50%);
+  border-color: #FF3939 !important;
 }
 
 .reveal section > footer > a.danger:before {
@@ -196,8 +205,8 @@
 }
 
 .reveal section > footer > a.download {
-  background: linear-gradient(to left, #8B59AB 50%, #5B227F 50%);
-  border-color: #5B227F;
+  background-image: linear-gradient(to left, #8B59AB 50%, #5B227F 50%);
+  border-color: #5B227F !important;
 }
 
 .reveal section > footer > a.download:before {
