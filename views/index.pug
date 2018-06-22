@@ -2,6 +2,10 @@ doctype html
 html
     head
         title= title
+        each stylesheet in stylesheets
+            link(rel='stylesheet', href=stylesheet)
     body
         #app
         script(src='/bundle.js')
+        each javascript in javascripts
+            script(src=javascript)

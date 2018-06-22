@@ -34,27 +34,67 @@ io.on('connection', function (socket) {
     socket.on('quizsubmitted', (data) => socket.broadcast.emit('quizsubmitted', data));
 });
 
-const config = {};
+let config = {};
 
 const args = yargs
-    .option('path', {
-        describe: 'Folder path',
-        default: process.cwd(),
-        type: 'string'
-    })
     .option('name', {
         alias: 'n',
         describe: 'Slideshow name',
         default: 'RevealExpress',
         type: 'string'
     })
+    .option('path', {
+        describe: 'Folder path',
+        default: process.cwd(),
+        type: 'string'
+    })
+    .option('assetspath', {
+        describe: 'Assets path',
+        default: '/assets',
+        type: 'string'
+    })
+    .option('stylesheets', {
+        alias: 'css',
+        describe: 'Stylesheets',
+        default: [],
+        type: 'array'
+    })
+    .option('javascripts', {
+        alias: 'js',
+        describe: 'JavaScripts',
+        default: [],
+        type: 'array'
+    })
     .argv;
 
-config.path = args.path;
 config.name = args.name;
+config.path = args.path;
+config.assetspath = args.assetspath;
+config.stylesheets = args.stylesheets;
+config.javascripts = args.javascripts;
+
+// load config file
+const configPath = path.join(config.path, 'slideshow.config.js')
+if(fs.existsSync(configPath)) {
+    config = Object.assign(config, require(configPath))
+}
+
+console.log(config)
+
+// add presentation assets to static files
+const assetsPath = path.join(config.path, config.assetspath)
+if(fs.existsSync(assetsPath)) {
+    app.use(config.assetspath, express.static(assetsPath))
+} else {
+    console.log('Assets directory ' + assetsPath + ' does not exists!')
+}
 
 router.get('/', function (req, res, next) {
-    res.render('index', {title: config.name});
+    res.render('index', {
+        title: config.name,
+        stylesheets: config.stylesheets,
+        javascripts: config.javascripts
+    });
 });
 
 router.get('/chapters', (req, res, next) => {
