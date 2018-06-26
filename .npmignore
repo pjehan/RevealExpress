@@ -1,0 +1,11 @@
+node_module/
+
+src/
+
+webpack.config.js
+.babelrc
+
+.gitignore
+.npmignore
+.package-lock.json
+.package.json
