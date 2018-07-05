@@ -47,7 +47,7 @@ class Slideshow extends React.Component {
             })
             .then((chapters) => {
                 // Escape tags inside <code>
-                chapters = chapters.map(chapter => chapter.replace(/<code class="([a-z-]*)">((\s|\S)*?)<\/code>/g, (match, grp1, grp2) => '<code class="' + grp1 + '">' + grp2.replace(/<([a-zA-Z/])/g, "&lt;$1") + '</code>'))
+                chapters = chapters.map(chapter => chapter.replace(/<code class="([a-z-]*)">((\s|\S)*?)<\/code>/g, (match, grp1, grp2) => '<code class="' + grp1 + '">' + grp2.replace(/<([a-zA-Z?])/g, "&lt;$1") + '</code>'))
                 this.setState({chapters: chapters}, () => {
                     Reveal.initialize({
                         history: true,
@@ -67,7 +67,7 @@ class Slideshow extends React.Component {
                 var counter = document.createElement('div');
                 counter.classList.add('counter');
                 counter.innerText = '0';
-                input.nextSibling.appendChild(counter);
+                input.nextElementSibling.appendChild(counter);
             });
 
             this.props.app.socket.on('quizsubmitted', (data) => {
