@@ -2,6 +2,15 @@
   "name": "revealexpress",
   "version": "1.0.1",
   "description": "Start RevealJS slideshow with ExpressJS server",
+  "keywords": [
+    "revealjs",
+    "expressjs",
+    "teach",
+    "learn",
+    "code",
+    "presentation",
+    "share"
+  ],
   "private": false,
   "preferGlobal": true,
   "scripts": {
