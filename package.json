@@ -1,8 +1,8 @@
 {
   "name": "revealexpress",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Start RevealJS slideshow with ExpressJS server",
-  "private": true,
+  "private": false,
   "preferGlobal": true,
   "scripts": {
     "start": "node ./bin/www",
