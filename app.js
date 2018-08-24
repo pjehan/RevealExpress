@@ -24,8 +24,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-opn(`http://${ip.address()}:3000`);
-
 // socketio
 io.on('connection', function (socket) {
     console.log('a user connected');
@@ -42,6 +40,12 @@ const args = yargs
         describe: 'Slideshow name',
         default: 'RevealExpress',
         type: 'string'
+    })
+    .option('port', {
+      alias: 'p',
+      describe: 'Slideshow port',
+      default: 3000,
+      type: 'int'
     })
     .option('path', {
         describe: 'Folder path',
@@ -68,10 +72,14 @@ const args = yargs
     .argv;
 
 config.name = args.name;
+config.port = args.port;
 config.path = args.path;
 config.assetspath = args.assetspath;
 config.stylesheets = args.stylesheets;
 config.javascripts = args.javascripts;
+
+process.env.PORT = config.port;
+opn(`http://${ip.address()}:${config.port}`);
 
 // load config file
 const configPath = path.join(config.path, 'slideshow.config.js')
