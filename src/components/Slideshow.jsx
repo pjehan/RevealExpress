@@ -1,7 +1,7 @@
 import React from 'react'
 import Reveal from 'reveal';
 import Prism from 'prismjs'
-import PrismJsx from 'prismjs/components/prism-jsx.min'
+import prismLoadLanguages from 'prismjs/components/index'
 import PrismLineNumber from 'prismjs/plugins/line-numbers/prism-line-numbers.min'
 import PrismLineHightlight from 'prismjs/plugins/line-highlight/prism-line-highlight.min'
 
@@ -53,6 +53,7 @@ class Slideshow extends React.Component {
                         history: true,
                         slideNumber: true
                     })
+                    prismLoadLanguages(['php', 'sql', 'jsx', 'bash']) // TODO: Load from config file
                     Prism.highlightAll()
                 })
             })
