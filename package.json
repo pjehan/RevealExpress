@@ -1,6 +1,6 @@
 {
   "name": "revealexpress",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Start RevealJS slideshow with ExpressJS server",
   "keywords": [
     "revealjs",
