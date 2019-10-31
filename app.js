@@ -12,7 +12,6 @@ var logger = require('morgan');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-http.listen(3001, ip.address());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,6 +46,12 @@ const args = yargs
       default: 3000,
       type: 'int'
     })
+    .option('portws', {
+      alias: 'pws',
+      describe: 'Slideshow WebSocket port',
+      default: 3001,
+      type: 'int'
+    })
     .option('path', {
         describe: 'Folder path',
         default: process.cwd(),
@@ -73,24 +78,26 @@ const args = yargs
 
 config.name = args.name;
 config.port = args.port;
+config.portws = args.portws;
 config.path = args.path;
 config.assetspath = args.assetspath;
 config.stylesheets = args.stylesheets;
 config.javascripts = args.javascripts;
 
 process.env.PORT = config.port;
-opn(`http://${ip.address()}:${config.port}`);
+opn(`http://${ip.address()}:${config.port}`); // Open app in default web browser
+http.listen(config.portws, ip.address()); // Start WebSocket server
 
 // load config file
-const configPath = path.join(config.path, 'slideshow.config.js')
+const configPath = path.join(config.path, 'slideshow.config.js');
 if(fs.existsSync(configPath)) {
     config = Object.assign(config, require(configPath))
 }
 
-console.log(config)
+console.log(config);
 
 // add presentation assets to static files
-const assetsPath = path.join(config.path, config.assetspath)
+const assetsPath = path.join(config.path, config.assetspath);
 if(fs.existsSync(assetsPath)) {
     app.use(config.assetspath, express.static(assetsPath))
 } else {
@@ -117,6 +124,8 @@ router.get('/chapters', (req, res, next) => {
 
     res.json(chapters);
 });
+
+router.get('/config/:name', (req, res) => res.json(config[req.params.name]));
 
 app.use('/', router);
 
