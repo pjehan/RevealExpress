@@ -51,6 +51,8 @@ By default, you must be on the same network.
 You can include [PrismJS](https://prismjs.com) in your slideshow using Webpack and [babel-plugin-prismjs](https://www.npmjs.com/package/babel-plugin-prismjs).
  
 ## Configuration
+
+### Command arguments
  
 You can pass arguments to the ```revealexpress``` command to customize the slideshow:
 ```shell script
@@ -75,6 +77,19 @@ module.exports = {
   javascripts: ['assets/js/script.js']
 };
 ```
+
+### RevealJS API
+
+RevealJS expose an [API](https://github.com/hakimel/reveal.js/#api) to let you listen or trigger events and configure the slideshow.
+
+The ```Reveal``` object is accessible once the slideshow has been loaded. You can listen to the 'loaded' event and then use the ```Reveal``` object within the listener callback function:
+```js
+document.getElementById('revealexpress').addEventListener('loaded', function(event) {
+  event.Reveal.next();
+});
+```
+
+> :warning: You should always **wait for the slideshow to be loaded** before interacting with it!
 
 ## Credits
 
