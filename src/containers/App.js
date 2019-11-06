@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { createSocket, setUserMode } from "../actions"
+import { createSocket, setUserMode, setConfig } from "../actions"
 import App from '../components/App'
 
 const mapStateToProps = state => ({
@@ -7,8 +7,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    createSocket: (socket) => dispatch(createSocket(socket)),
-    setUserMode: (mode) => dispatch(setUserMode(mode))
+    setConfig: config => dispatch(setConfig(config)),
+    createSocket: socket => dispatch(createSocket(socket)),
+    setUserMode: mode => dispatch(setUserMode(mode))
 });
 
 export default connect(

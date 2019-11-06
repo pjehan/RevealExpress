@@ -42,9 +42,12 @@ By default, you must be on the same network.
 - Work in any modern browser
 - Open in default browser
 - Accessible by anyone on the same network
-- Syntax highlight (using [PrismJS](https://prismjs.com))
 - Audience can follow your presentation in real time
 
+### Additional features
+#### PrismJS
+You can include [PrismJS](https://prismjs.com) in your slideshow using Webpack and [babel-plugin-prismjs](https://www.npmjs.com/package/babel-plugin-prismjs).
+ 
 
 ## Credits
 

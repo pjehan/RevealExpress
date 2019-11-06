@@ -115,6 +115,7 @@ router.get('/', function (req, res, next) {
 router.get('/chapters', (req, res, next) => {
     var chapters = [];
 
+    // TODO: Make async
     fs.readdirSync(config.path).forEach(file => {
         if (path.extname(file) === '.html') {
             var filepath = path.join(config.path, file);
@@ -125,7 +126,7 @@ router.get('/chapters', (req, res, next) => {
     res.json(chapters);
 });
 
-router.get('/config/:name', (req, res) => res.json(config[req.params.name]));
+router.get('/config', (req, res) => res.json(config));
 
 app.use('/', router);
 

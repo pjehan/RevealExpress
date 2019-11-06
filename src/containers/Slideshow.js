@@ -1,12 +1,14 @@
-import { connect } from 'react-redux'
-import Slideshow from '../components/Slideshow'
+import { connect } from 'react-redux';
+import Slideshow from '../components/Slideshow';
 
 const mapStateToProps = state => ({
-    app: state.app,
+    socket: state.app.socket,
+    mode: state.app.mode,
+    config: state.app.config,
     toolbar: state.toolbar
-})
+});
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
     mapStateToProps,

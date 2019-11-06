@@ -5,11 +5,11 @@ import { Provider } from 'react-redux'
 import rootReducer from './reducers'
 import App from './containers/App'
 
-const css = require('./stylesheets/style.less')
+const css = require('./stylesheets/style.less');
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer);
 
 ReactDOM.render(
     <Provider store={store}><App/></Provider>,
-    document.getElementById('app')
-)
+    document.getElementById('revealexpress')
+);

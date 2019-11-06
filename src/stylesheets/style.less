@@ -1,13 +1,10 @@
 @import "~reveal/index.css";
 @import "~reveal/theme/solarized.css";
-@import "~prismjs/themes/prism-tomorrow.css";
-@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
-@import "~prismjs/plugins/line-highlight/prism-line-highlight.css";
 @import "~font-awesome/less/font-awesome.less";
 @import "toggle";
 @import "toolbar";
 
-#app {
+#revealexpress {
   height: 100%;
 }
 
@@ -99,15 +96,6 @@
   text-align: center;
 }
 
-.reveal pre[class*="language-"] {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.reveal pre code {
-  padding: 0;
-}
-
 .reveal .instructions {
   position: relative;
   display: flex;
@@ -117,7 +105,7 @@
 }
 
 .reveal .instructions:before {
-  font-family: FontAwesome;
+  font-family: FontAwesome, serif;
   font-size: 1.2em;
   color: #3cbd68;
   content: "\f046";
@@ -253,7 +241,7 @@
 
 .reveal .console-error {
   text-align: left;
-  font-family: "Courier New";
+  font-family: "Courier New", serif;
   font-size: 0.8em;
   padding-left: 32px;
   color: red;
