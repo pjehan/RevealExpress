@@ -15,7 +15,7 @@ In your console, run:
 
 <sup>(You may need to add `sudo` at start)</sup>
 
-```
+```shell script
 npm install -g revealexpress
 ```
 
@@ -25,7 +25,7 @@ npm install -g revealexpress
 In your console, navigate to your project folder.
 Then launch RevealExpress:
 
-```
+```shell script
 cd ./my-awesome-presentation
 revealexpress
 ```
@@ -45,9 +45,36 @@ By default, you must be on the same network.
 - Audience can follow your presentation in real time
 
 ### Additional features
+
 #### PrismJS
+
 You can include [PrismJS](https://prismjs.com) in your slideshow using Webpack and [babel-plugin-prismjs](https://www.npmjs.com/package/babel-plugin-prismjs).
  
+## Configuration
+ 
+You can pass arguments to the ```revealexpress``` command to customize the slideshow:
+```shell script
+revealexpress -n="My slideshow" -p=5000 --revealjs.slideNumber=0
+```
+
+You can use the ```--help``` flag to list every available arguments:
+```shell script
+revealexpress --help
+```
+
+You can also use a JavaScript file to send arguments to RevealExpress:
+```js
+module.exports = {
+  name: 'My slideshow',
+  port: 5000,
+  portws: 5001,
+  revealjs: {
+    slideNumber: 0    
+  },
+  stylesheets: ['assets/css/style.css'],
+  javascripts: ['assets/js/script.js']
+};
+```
 
 ## Credits
 

@@ -21,10 +21,10 @@ class Slideshow extends React.Component {
               // Escape tags inside <code>
               chapters = chapters.map(chapter => chapter.replace(/<code class="([a-z-]*)">((\s|\S)*?)<\/code>/g, (match, grp1, grp2) => '<code class="' + grp1 + '">' + grp2.replace(/<([a-zA-Z?])/g, "&lt;$1") + '</code>'));
               this.setState({chapters: chapters}, () => {
-                  // TODO: Load params from config file
                   Reveal.initialize({
                       history: true,
-                      slideNumber: true
+                      slideNumber: true,
+                      ...this.props.config.revealjs // Load params from config file
                   });
                   document.getElementById('revealexpress').dispatchEvent(new CustomEvent('loaded', {
                       Reveal: Reveal

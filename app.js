@@ -52,6 +52,11 @@ const args = yargs
       default: 3001,
       type: 'int'
     })
+    .option('revealjs', {
+      describe: 'RevealJS parameters',
+      default: {},
+      type: 'object'
+    })
     .option('path', {
         describe: 'Folder path',
         default: process.cwd(),
@@ -79,6 +84,7 @@ const args = yargs
 config.name = args.name;
 config.port = args.port;
 config.portws = args.portws;
+config.revealjs = args.revealjs;
 config.path = args.path;
 config.assetspath = args.assetspath;
 config.stylesheets = args.stylesheets;
