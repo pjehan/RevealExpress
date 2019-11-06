@@ -1,6 +1,7 @@
 @import "~reveal/index.css";
 @import "~reveal/theme/solarized.css";
-@import "~font-awesome/less/font-awesome.less";
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 @import "toggle";
 @import "toolbar";
 
@@ -12,7 +13,7 @@
   font-size: 32px;
 
   i.fa {
-    font-family: FontAwesome;
+    font-family: FontAwesome, serif;
     font-style: normal;
     line-height: normal;
   }
