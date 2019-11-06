@@ -113,17 +113,18 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/chapters', (req, res, next) => {
-    var chapters = [];
+    let chapters = [];
 
-    // TODO: Make async
-    fs.readdirSync(config.path).forEach(file => {
+    fs.readdir(config.path, (err, files) => {
+      files.forEach(file => {
         if (path.extname(file) === '.html') {
-            var filepath = path.join(config.path, file);
-            chapters.push(fs.readFileSync(filepath, 'utf-8'));
+          let filepath = path.join(config.path, file);
+          chapters.push(fs.readFileSync(filepath, 'utf-8'));
         }
+      });
+      res.json(chapters);
     });
 
-    res.json(chapters);
 });
 
 router.get('/config', (req, res) => res.json(config));
