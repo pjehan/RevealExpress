@@ -52,6 +52,11 @@ const args = yargs
       default: 3001,
       type: 'int'
     })
+    .option('password', {
+      describe: 'Presenter password',
+      default: null,
+      type: 'string'
+    })
     .option('revealjs', {
       describe: 'RevealJS parameters',
       default: {},
@@ -84,6 +89,7 @@ const args = yargs
 config.name = args.name;
 config.port = args.port;
 config.portws = args.portws;
+config.password = args.password;
 config.revealjs = args.revealjs;
 config.path = args.path;
 config.assetspath = args.assetspath;
@@ -134,6 +140,10 @@ router.get('/chapters', (req, res, next) => {
 });
 
 router.get('/config', (req, res) => res.json(config));
+
+router.get('/check-password/:password', (req, res) => {
+  return res.json({ valid: config.password && req.params.password === config.password });
+});
 
 app.use('/', router);
 

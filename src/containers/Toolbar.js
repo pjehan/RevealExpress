@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { toggleFollow, toggleToolbar } from '../actions'
+import { toggleFollow, toggleToolbar, setUserMode } from '../actions'
 import Toolbar from '../components/Toolbar'
 
 const mapStateToProps = state => ({
@@ -9,7 +9,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onFollowClick: () => dispatch(toggleFollow()),
-    onToggleClick: () => dispatch(toggleToolbar())
+    onToggleClick: () => dispatch(toggleToolbar()),
+    setUserMode: mode => dispatch(setUserMode(mode))
 })
 
 export default connect(
