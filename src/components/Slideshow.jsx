@@ -11,7 +11,6 @@ class Slideshow extends React.Component {
   componentDidMount() {
     this.fetchChapters();
     this.handleSlideChanged();
-    this.handleQuiz();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -20,8 +19,9 @@ class Slideshow extends React.Component {
       if (mode === 'presenter') {
         Reveal.addEventListener('slidechanged', (event) => socket.emit('slidechanged', Reveal.getIndices()));
       } else {
-        // TODO: Remove event listener
+        Reveal.removeEventListener('slidechanged');
       }
+      this.handlePresenterQuiz();
     }
     if (toolbar.follow !== prevProps.toolbar.follow) {
       if (toolbar.follow) {
@@ -46,9 +46,15 @@ class Slideshow extends React.Component {
           });
           document.getElementById('revealexpress').dispatchEvent(new CustomEvent('loaded', {
             detail: {
+              config: {
+                name: this.props.config.name,
+                port: this.props.config.port,
+                portws: this.props.config.portws
+              },
               Reveal: Reveal
             }
           }));
+          this.handleQuiz();
         })
       })
   }
@@ -62,19 +68,19 @@ class Slideshow extends React.Component {
   }
 
   handleQuiz() {
-    const {socket, mode} = this.props;
+    const {socket} = this.props;
 
-    var forms = document.querySelectorAll('form.quiz-form');
-    var submittedForm = [];
+    const forms = document.querySelectorAll('form.quiz-form');
+    let submittedForm = [];
 
     forms.forEach((form) => {
       form.addEventListener('submit', (event) => {
         event.preventDefault();
 
         if (submittedForm.indexOf(event.target) === -1) {
-          var values = new FormData(event.target);
-          var data = [];
-          for (var value of values.entries()) {
+          const values = new FormData(event.target);
+          let data = [];
+          for (const value of values.entries()) {
             data.push(value);
           }
           socket.emit('quizsubmitted', data);
@@ -85,20 +91,30 @@ class Slideshow extends React.Component {
         }
       });
     });
+  }
+
+  handlePresenterQuiz() {
+    const {socket, mode} = this.props;
 
     if (mode === 'presenter') {
       document.querySelectorAll('.quiz-options input').forEach((input) => {
-        var counter = document.createElement('div');
+        const counter = document.createElement('div');
         counter.classList.add('counter');
         counter.innerText = '0';
         input.nextElementSibling.appendChild(counter);
       });
 
-      socket.on('quizsubmitted', (data) => {
-        for (var i = 0; i < data.length; i++) {
-          var counter = document.querySelector('section.quiz.present input[name="' + data[i][0] + '"][value="' + data[i][1] + '"]').parentNode.querySelector('div.counter');
+      socket.on('quizsubmitted', (values) => {
+        for (const value of values) {
+          const [name, answer] = value;
+          const counter = document.querySelector('input[name="' + name + '"][value="' + answer + '"]').parentNode.querySelector('div.counter');
           counter.innerText = parseInt(counter.innerText) + 1;
         }
+      });
+    } else {
+      socket.off('quizsubmitted');
+      document.querySelectorAll('.quiz-options input').forEach((input) => {
+        input.nextElementSibling.querySelector('div.counter').remove();
       });
     }
   }
