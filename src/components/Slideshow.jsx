@@ -45,7 +45,9 @@ class Slideshow extends React.Component {
             ...this.props.config.revealjs // Load params from config file
           });
           document.getElementById('revealexpress').dispatchEvent(new CustomEvent('loaded', {
-            Reveal: Reveal
+            detail: {
+              Reveal: Reveal
+            }
           }));
         })
       })
