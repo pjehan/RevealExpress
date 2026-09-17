@@ -41,6 +41,7 @@ async function startServer(config: Partial<Config> = {}) {
       stylesheets: ['assets/style.css'],
       javascripts: ['assets/script.js'],
       open: false,
+      lang: 'en',
       ...config,
     },
     { middleware: (req, res, next) => next(), indexHtml: async () => template },
@@ -86,6 +87,7 @@ describe('HTTP routes', () => {
 
   it('renders the index with the title, stylesheets and javascripts', async () => {
     const html = await fetch(url).then((response) => response.text());
+    assert.match(html, /<html lang="en">/);
     assert.match(html, /<title>Test &lt;slideshow&gt;<\/title>/);
     assert.match(html, /<link rel="stylesheet" href="assets\/style.css">/);
     assert.match(html, /<script src="assets\/script.js"><\/script>/);

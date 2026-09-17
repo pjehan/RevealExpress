@@ -41,7 +41,8 @@ export default function Toolbar({ mode, onModeChange, follow, onFollowChange }: 
 
   return (
     <div id="toolbar">
-      <div className={'tools' + (show ? ' show' : '')}>
+      {/* Hidden tools must not be reachable with the keyboard */}
+      <div id="revealexpress-tools" className={'tools' + (show ? ' show' : '')} inert={!show}>
         <form onSubmit={submitPassword}>
           {askPassword ? (
             // Masked field: the screen may be projected in front of the audience
@@ -77,8 +78,9 @@ export default function Toolbar({ mode, onModeChange, follow, onFollowChange }: 
           ) : (
             <>
               <div className="form-group">
-                <label>Mode :</label>
+                <label htmlFor="revealexpress-mode">Mode :</label>
                 <select
+                  id="revealexpress-mode"
                   value={mode}
                   onChange={(event) => handleModeChange(event.target.value as UserMode)}
                 >
@@ -88,9 +90,10 @@ export default function Toolbar({ mode, onModeChange, follow, onFollowChange }: 
               </div>
               {mode === 'spectator' && (
                 <div className="form-group">
-                  <label>Auto slide :</label>
+                  <label htmlFor="revealexpress-follow">Auto slide :</label>
                   <label className="switch">
                     <input
+                      id="revealexpress-follow"
                       type="checkbox"
                       checked={follow}
                       onChange={(event) => onFollowChange(event.target.checked)}
@@ -103,9 +106,16 @@ export default function Toolbar({ mode, onModeChange, follow, onFollowChange }: 
           )}
         </form>
       </div>
-      <div className="btn-show-tools">
-        <i className="fa fa-arrow-circle-down" onClick={() => setShow(!show)}></i>
-      </div>
+      <button
+        type="button"
+        className="btn-show-tools"
+        aria-label={show ? 'Hide tools' : 'Show tools'}
+        aria-expanded={show}
+        aria-controls="revealexpress-tools"
+        onClick={() => setShow(!show)}
+      >
+        <i className="fa fa-arrow-circle-down" aria-hidden="true"></i>
+      </button>
     </div>
   );
 }

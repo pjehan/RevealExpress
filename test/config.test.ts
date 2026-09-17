@@ -34,6 +34,7 @@ describe('loadConfig', () => {
       stylesheets: [],
       javascripts: [],
       open: true,
+      lang: 'fr',
     });
   });
 

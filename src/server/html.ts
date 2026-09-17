@@ -11,7 +11,7 @@ function escapeHtml(value: string): string {
     .replaceAll('"', '&quot;');
 }
 
-/** Inject the slideshow title, stylesheets and javascripts into the client index.html */
+/** Inject the slides language, title, stylesheets and javascripts into the client index.html */
 export function renderIndex(template: string, config: Config): string {
   const head = [
     `<title>${escapeHtml(config.name)}</title>`,
@@ -20,6 +20,7 @@ export function renderIndex(template: string, config: Config): string {
   const body = config.javascripts.map((src) => `<script src="${escapeHtml(src)}"></script>`);
 
   return template
+    .replace('<html>', `<html lang="${escapeHtml(config.lang)}">`)
     .replace(HEAD_PLACEHOLDER, head.join('\n'))
     .replace(BODY_PLACEHOLDER, body.join('\n'));
 }

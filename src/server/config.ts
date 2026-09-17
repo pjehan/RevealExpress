@@ -11,6 +11,7 @@ export interface Config extends PublicConfig {
   stylesheets: string[];
   javascripts: string[];
   open: boolean;
+  lang: string;
 }
 
 export const CONFIG_FILENAME = 'slideshow.config.js';
@@ -42,6 +43,7 @@ function parseArgs(argv: string[], fileConfig: Record<string, unknown>, cwd: str
       assetspath: { describe: 'Assets path', default: '/assets', type: 'string' },
       stylesheets: { alias: 'css', describe: 'Stylesheets', default: [], type: 'array' },
       javascripts: { alias: 'js', describe: 'JavaScripts', default: [], type: 'array' },
+      lang: { describe: 'Language of the slides', default: 'fr', type: 'string' },
       open: {
         describe: 'Open the slideshow in the default browser (disable with --no-open)',
         default: true,
@@ -73,5 +75,6 @@ export function loadConfig(argv: string[], cwd = process.cwd()): Config {
     stylesheets: args.stylesheets.map(String),
     javascripts: args.javascripts.map(String),
     open: args.open,
+    lang: args.lang,
   };
 }

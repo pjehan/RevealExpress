@@ -74,6 +74,7 @@ You can also create a `slideshow.config.js` file in your presentation folder to 
 ```js
 module.exports = {
   name: 'My slideshow',
+  lang: 'en', // Language of the slides (default: 'fr')
   port: 5000,
   password: 'my-secret',
   revealjs: {

@@ -5,8 +5,12 @@
   height: 34px;
 }
 
+/* Visually hidden but still focusable with the keyboard */
 .switch input {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
 .slider {
@@ -37,8 +41,9 @@ input:checked + .slider {
   background-color: #2196f3;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+input:focus-visible + .slider {
+  outline: 3px solid #002b36;
+  outline-offset: 2px;
 }
 
 input:checked + .slider:before {

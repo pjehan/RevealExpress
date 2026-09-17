@@ -271,12 +271,21 @@ form.quiz-form {
     grid-column-gap: 1em;
     grid-row-gap: 1em;
 
+    /* Visually hidden but still focusable with the keyboard */
     input {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
     }
 
     input:checked + label {
       background-color: #17ff2e;
+    }
+
+    input:focus-visible + label {
+      outline: 4px solid #002b36;
+      outline-offset: 4px;
     }
 
     label {

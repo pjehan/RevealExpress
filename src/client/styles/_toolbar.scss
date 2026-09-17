@@ -47,11 +47,18 @@
   .btn-show-tools {
     display: inline-block;
     padding: 2px 5px;
+    border: none;
     border-radius: 0 0 100px 100px;
     font-size: 2em;
+    line-height: 1;
     color: white;
     background-color: #00b7ff;
     cursor: pointer;
+
+    &:focus-visible {
+      outline: 3px solid #002b36;
+      outline-offset: -3px;
+    }
 
     i {
       transition: transform ease-out 0.5s;
