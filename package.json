@@ -11,15 +11,22 @@
     "presentation",
     "share"
   ],
+  "author": "Pierre Jehan (https://www.pierre-jehan.com)",
+  "license": "MIT",
+  "homepage": "https://github.com/pjehan/RevealExpress#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pjehan/RevealExpress.git"
+    "url": "git+https://github.com/pjehan/RevealExpress.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pjehan/RevealExpress/issues"
   },
   "private": false,
   "type": "module",
   "preferGlobal": true,
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "dev": "node --watch-path=src/server --watch-path=src/shared src/server/dev.ts",
