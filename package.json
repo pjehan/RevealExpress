@@ -16,47 +16,44 @@
     "url": "https://github.com/pjehan/RevealExpress.git"
   },
   "private": false,
+  "type": "module",
   "preferGlobal": true,
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "node ./bin/www",
-    "build": "webpack --config ./webpack.config.js --mode production",
-    "watch": "webpack --config ./webpack.config.js --watch",
+    "dev": "node --watch-path=src/server --watch-path=src/shared src/server/dev.ts",
+    "start": "node dist/server/cli.js",
+    "build": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\" && tsc -b && vite build",
+    "typecheck": "tsc -b",
     "prepublishOnly": "npm run build"
   },
   "bin": {
-    "revealexpress": "bin/www"
+    "revealexpress": "dist/server/cli.js"
   },
   "engines": {
     "node": ">=20.19"
   },
   "dependencies": {
-    "cookie-parser": "^1.4.7",
-    "debug": "^4.4.3",
     "express": "^5.2.1",
-    "http-errors": "^2.0.1",
-    "morgan": "^1.12.1",
     "open": "^11.0.4",
-    "pug": "^3.0.4",
     "socket.io": "^4.8.3",
     "yargs": "^18.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.5",
-    "@babel/preset-env": "^8.0.5",
-    "@babel/preset-react": "^8.0.1",
-    "babel-loader": "^10.1.1",
-    "css-loader": "^7.1.5",
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/yargs": "^17.0.35",
+    "@vitejs/plugin-react": "^6.1.1",
     "font-awesome": "^4.7.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-redux": "^9.3.0",
-    "redux": "^5.0.1",
     "reveal.js": "^6.0.2",
     "sass": "^1.104.1",
-    "sass-loader": "^17.0.1",
     "socket.io-client": "^4.8.3",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.111.0",
-    "webpack-cli": "^7.2.3"
+    "typescript": "~6.0.3",
+    "vite": "^8.3.0"
   }
 }
