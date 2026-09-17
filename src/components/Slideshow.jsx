@@ -1,11 +1,12 @@
 import React from 'react'
-import Reveal from 'reveal';
+import Reveal from 'reveal.js';
 
 class Slideshow extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {chapters: []}
+    this.emitSlideChanged = () => this.props.socket.emit('slidechanged', Reveal.getIndices());
   }
 
   componentDidMount() {
@@ -17,9 +18,9 @@ class Slideshow extends React.Component {
     const {socket, mode, toolbar} = this.props;
     if (mode !== prevProps.mode) {
       if (mode === 'presenter') {
-        Reveal.addEventListener('slidechanged', (event) => socket.emit('slidechanged', Reveal.getIndices()));
+        Reveal.on('slidechanged', this.emitSlideChanged);
       } else {
-        Reveal.removeEventListener('slidechanged');
+        Reveal.off('slidechanged', this.emitSlideChanged);
       }
       this.handlePresenterQuiz();
     }
@@ -43,18 +44,19 @@ class Slideshow extends React.Component {
             history: true,
             slideNumber: true,
             ...this.props.config.revealjs // Load params from config file
+          }).then(() => {
+            document.getElementById('revealexpress').dispatchEvent(new CustomEvent('loaded', {
+              detail: {
+                config: {
+                  name: this.props.config.name,
+                  port: this.props.config.port,
+                  portws: this.props.config.portws
+                },
+                Reveal: Reveal
+              }
+            }));
+            this.handleQuiz();
           });
-          document.getElementById('revealexpress').dispatchEvent(new CustomEvent('loaded', {
-            detail: {
-              config: {
-                name: this.props.config.name,
-                port: this.props.config.port,
-                portws: this.props.config.portws
-              },
-              Reveal: Reveal
-            }
-          }));
-          this.handleQuiz();
         })
       })
   }
@@ -63,7 +65,7 @@ class Slideshow extends React.Component {
     const {socket, mode} = this.props;
 
     if (mode === 'presenter') {
-      Reveal.addEventListener('slidechanged', (event) => socket.emit('slidechanged', Reveal.getIndices()));
+      Reveal.on('slidechanged', this.emitSlideChanged);
     }
   }
 

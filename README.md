@@ -80,12 +80,12 @@ module.exports = {
 
 ### RevealJS API
 
-RevealJS expose an [API](https://github.com/hakimel/reveal.js/#api) to let you listen or trigger events and configure the slideshow.
+RevealJS expose an [API](https://revealjs.com/api/) to let you listen or trigger events and configure the slideshow.
 
-The ```Reveal``` object is accessible once the slideshow has been loaded. You can listen to the 'loaded' event and then use the ```Reveal``` object within the listener callback function:
+The ```Reveal``` object is accessible once the slideshow has been loaded. You can listen to the 'loaded' event and then use the ```event.detail.Reveal``` object within the listener callback function:
 ```js
 document.getElementById('revealexpress').addEventListener('loaded', function(event) {
-  event.Reveal.next();
+  event.detail.Reveal.next();
 });
 ```
 

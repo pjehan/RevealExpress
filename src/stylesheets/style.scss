@@ -1,9 +1,5 @@
-@import "~reveal/index.css";
-@import "~reveal/theme/solarized.css";
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
-@import "toggle";
-@import "toolbar";
+@use "toggle";
+@use "toolbar";
 
 #revealexpress {
   height: 100%;

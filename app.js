@@ -3,15 +3,29 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var fs = require('fs');
-var opn = require('opn');
-var ip = require("ip");
+var os = require('os');
 var yargs = require('yargs');
+var { hideBin } = require('yargs/helpers');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')(http, {
+    cors: { origin: true } // WebSocket server listens on a different port than the slideshow
+});
+
+// Return the first external IPv4 address of this machine
+function getIpAddress() {
+    for (const addresses of Object.values(os.networkInterfaces())) {
+        for (const address of addresses) {
+            if (address.family === 'IPv4' && !address.internal) {
+                return address.address;
+            }
+        }
+    }
+    return '127.0.0.1';
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,80 +45,94 @@ io.on('connection', function (socket) {
     socket.on('quizsubmitted', (data) => socket.broadcast.emit('quizsubmitted', data));
 });
 
-let config = {};
+// Convert "true" and "false" strings from command line (e.g. --revealjs.controls=false) to booleans
+function parseBooleans(value) {
+    if (value === 'true' || value === 'false') {
+        return value === 'true';
+    }
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+        return Object.fromEntries(Object.entries(value).map(([key, val]) => [key, parseBooleans(val)]));
+    }
+    return value;
+}
 
-const args = yargs
-    .option('name', {
-        alias: 'n',
-        describe: 'Slideshow name',
-        default: 'RevealExpress',
-        type: 'string'
-    })
-    .option('port', {
-      alias: 'p',
-      describe: 'Slideshow port',
-      default: 3000,
-      type: 'int'
-    })
-    .option('portws', {
-      alias: 'pws',
-      describe: 'Slideshow WebSocket port',
-      default: 3001,
-      type: 'int'
-    })
-    .option('password', {
-      describe: 'Presenter password',
-      default: null,
-      type: 'string'
-    })
-    .option('revealjs', {
-      describe: 'RevealJS parameters',
-      default: {},
-      type: 'object'
-    })
-    .option('path', {
-        describe: 'Folder path',
-        default: process.cwd(),
-        type: 'string'
-    })
-    .option('assetspath', {
-        describe: 'Assets path',
-        default: '/assets',
-        type: 'string'
-    })
-    .option('stylesheets', {
-        alias: 'css',
-        describe: 'Stylesheets',
-        default: [],
-        type: 'array'
-    })
-    .option('javascripts', {
-        alias: 'js',
-        describe: 'JavaScripts',
-        default: [],
-        type: 'array'
-    })
-    .argv;
+// Command line arguments override slideshow.config.js, which overrides default values
+function parseArgs(fileConfig) {
+    return yargs(hideBin(process.argv))
+        .config(fileConfig)
+        .option('name', {
+            alias: 'n',
+            describe: 'Slideshow name',
+            default: 'RevealExpress',
+            type: 'string'
+        })
+        .option('port', {
+          alias: 'p',
+          describe: 'Slideshow port',
+          default: 3000,
+          type: 'number'
+        })
+        .option('portws', {
+          alias: 'pws',
+          describe: 'Slideshow WebSocket port',
+          default: 3001,
+          type: 'number'
+        })
+        .option('password', {
+          describe: 'Presenter password',
+          default: null,
+          type: 'string'
+        })
+        .option('revealjs', {
+          describe: 'RevealJS parameters',
+          default: {},
+          type: 'object',
+          coerce: parseBooleans
+        })
+        .option('path', {
+            describe: 'Folder path',
+            default: process.cwd(),
+            type: 'string'
+        })
+        .option('assetspath', {
+            describe: 'Assets path',
+            default: '/assets',
+            type: 'string'
+        })
+        .option('stylesheets', {
+            alias: 'css',
+            describe: 'Stylesheets',
+            default: [],
+            type: 'array'
+        })
+        .option('javascripts', {
+            alias: 'js',
+            describe: 'JavaScripts',
+            default: [],
+            type: 'array'
+        })
+        .parseSync();
+}
 
-config.name = args.name;
-config.port = args.port;
-config.portws = args.portws;
-config.password = args.password;
-config.revealjs = args.revealjs;
-config.path = args.path;
-config.assetspath = args.assetspath;
-config.stylesheets = args.stylesheets;
-config.javascripts = args.javascripts;
+// The folder path is needed to find slideshow.config.js
+const configPath = path.join(parseArgs({}).path, 'slideshow.config.js');
+const args = parseArgs(fs.existsSync(configPath) ? require(configPath) : {});
+
+const config = {
+    name: args.name,
+    port: args.port,
+    portws: args.portws,
+    password: args.password,
+    revealjs: args.revealjs,
+    path: args.path,
+    assetspath: args.assetspath,
+    stylesheets: args.stylesheets,
+    javascripts: args.javascripts
+};
 
 process.env.PORT = config.port;
-opn(`http://${ip.address()}:${config.port}`); // Open app in default web browser
-http.listen(config.portws, ip.address()); // Start WebSocket server
-
-// load config file
-const configPath = path.join(config.path, 'slideshow.config.js');
-if(fs.existsSync(configPath)) {
-    config = Object.assign(config, require(configPath))
-}
+import('open').then(({ default: open }) => open(`http://${getIpAddress()}:${config.port}`)); // Open app in default web browser
+http.listen(config.portws, getIpAddress()); // Start WebSocket server
 
 console.log(config);
 
@@ -139,7 +167,13 @@ router.get('/chapters', (req, res, next) => {
 
 });
 
-router.get('/config', (req, res) => res.json(config));
+// Only expose what the client needs (never the password)
+router.get('/config', (req, res) => res.json({
+    name: config.name,
+    port: config.port,
+    portws: config.portws,
+    revealjs: config.revealjs
+}));
 
 router.get('/check-password/:password', (req, res) => {
   return res.json({ valid: config.password && req.params.password === config.password });
