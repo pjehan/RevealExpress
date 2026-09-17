@@ -3,7 +3,12 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import express, { type RequestHandler } from 'express';
 import { Server } from 'socket.io';
-import type { ClientToServerEvents, PublicConfig, ServerToClientEvents } from '../shared/types.ts';
+import type {
+  ClientToServerEvents,
+  PublicConfig,
+  ServerToClientEvents,
+  SlideIndices,
+} from '../shared/types.ts';
 import type { Config } from './config.ts';
 import { renderIndex } from './html.ts';
 
@@ -25,8 +30,19 @@ export function createServer(config: Config, client: ClientHandler): http.Server
   const server = http.createServer(app);
   const io = new Server<ClientToServerEvents, ServerToClientEvents>(server, { serveClient: false });
 
+  let currentSlide: SlideIndices | null = null;
+
   io.on('connection', (socket) => {
-    socket.on('slidechanged', (indices) => socket.broadcast.emit('slidechanged', indices));
+    socket.on('slidechanged', (indices) => {
+      currentSlide = indices;
+      socket.broadcast.emit('slidechanged', indices);
+    });
+    socket.on('currentslide', (callback) => {
+      // A missing callback would throw and stop the server
+      if (typeof callback === 'function') {
+        callback(currentSlide);
+      }
+    });
     socket.on('quizsubmitted', (answers) => socket.broadcast.emit('quizsubmitted', answers));
   });
 

@@ -20,6 +20,7 @@ export function useSlideSync(
       socket.emit('slidechanged', { h, v });
     };
 
+    shareSlide(); // Spectators immediately go to the presenter's slide
     deck.on('slidechanged', shareSlide);
     return () => deck.off('slidechanged', shareSlide);
   }, [deck, socket, mode]);
@@ -29,10 +30,17 @@ export function useSlideSync(
       return;
     }
 
-    const goToSlide = ({ h, v }: SlideIndices) => deck.slide(h, v);
+    let active = true;
+    const goToSlide = (indices: SlideIndices | null) => {
+      if (active && indices) {
+        deck.slide(indices.h, indices.v);
+      }
+    };
 
     socket.on('slidechanged', goToSlide);
+    socket.emit('currentslide', goToSlide); // Don't wait for the presenter's next slide
     return () => {
+      active = false;
       socket.off('slidechanged', goToSlide);
     };
   }, [deck, socket, mode, follow]);

@@ -24,5 +24,7 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   slidechanged: (indices: SlideIndices) => void;
+  /** Ask for the presenter's current slide (null if the presenter has not shared it yet) */
+  currentslide: (callback: (indices: SlideIndices | null) => void) => void;
   quizsubmitted: (answers: QuizAnswers) => void;
 }
