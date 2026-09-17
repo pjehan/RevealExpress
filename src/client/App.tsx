@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import type { PublicConfig, UserMode } from '../shared/types';
+import type { PublicConfig } from '../shared/types';
 import { fetchConfig } from './api';
 import Slideshow from './components/Slideshow';
 import Toolbar from './components/Toolbar';
 import { useSocket } from './hooks/useSocket';
+import { useStoredMode } from './hooks/useStoredMode';
 
 export default function App() {
   const socket = useSocket();
   const [config, setConfig] = useState<PublicConfig | null>(null);
-  const [mode, setMode] = useState<UserMode>('spectator');
+  const [mode, setMode] = useStoredMode();
   const [follow, setFollow] = useState(false);
 
   useEffect(() => {
