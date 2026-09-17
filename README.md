@@ -10,7 +10,7 @@ Start revealexpress inside your presentation folder, share the URL with your aud
 
 #### 1 - Install RevealExpress globally
 
-You must have [NodeJS](https://nodejs.org/en/) 20.19 or later and [NPM](https://www.npmjs.org) already installed.
+You must have [NodeJS](https://nodejs.org/en/) 22.12 or later and [NPM](https://www.npmjs.org) already installed.
 In your console, run:
 
 <sup>(You may need to add `sudo` at start)</sup>
