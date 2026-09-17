@@ -13,5 +13,5 @@
     "noUnusedLocals": true,
     "skipLibCheck": true
   },
-  "include": ["vite.config.ts", "src/server", "src/shared"]
+  "include": ["vite.config.ts", "src/server", "src/shared", "test"]
 }

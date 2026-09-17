@@ -28,7 +28,8 @@
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "prepublishOnly": "npm run lint && npm run build"
+    "test": "node --test \"test/**/*.test.ts\"",
+    "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "bin": {
     "revealexpress": "dist/server/cli.js"
