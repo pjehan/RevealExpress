@@ -1,5 +1,5 @@
-@use "toggle";
-@use "toolbar";
+@use 'toggle';
+@use 'toolbar';
 
 #revealexpress {
   height: 100%;
@@ -26,9 +26,7 @@
       padding: 1em;
       flex: 1;
     }
-
   }
-
 }
 
 .reveal section.first,
@@ -68,13 +66,13 @@
   border-bottom: 1px solid;
 }
 
-.reveal table th[align="center"],
-.reveal table td[align="center"] {
+.reveal table th[align='center'],
+.reveal table td[align='center'] {
   text-align: center;
 }
 
-.reveal table th[align="right"],
-.reveal table td[align="right"] {
+.reveal table th[align='right'],
+.reveal table td[align='right'] {
   text-align: right;
 }
 
@@ -105,7 +103,7 @@
   font-family: FontAwesome, serif;
   font-size: 1.2em;
   color: #3cbd68;
-  content: "\f046";
+  content: '\f046';
 }
 
 .reveal .instructions .instructions-content {
@@ -155,7 +153,7 @@
   padding: 0 10px;
 }
 
-.reveal section > footer > a:not([href="#"]) {
+.reveal section > footer > a:not([href='#']) {
   text-decoration: underline;
 }
 
@@ -165,38 +163,38 @@
 }
 
 .reveal section > footer > a.info:before {
-  content: "\f05a";
+  content: '\f05a';
   background-color: #268bd2;
 }
 
 .reveal section > footer > a.warning {
-  background-image: linear-gradient(to left, #FFC77D 50%, #FFAA39 50%);
-  border-color: #FFAA39 !important;
+  background-image: linear-gradient(to left, #ffc77d 50%, #ffaa39 50%);
+  border-color: #ffaa39 !important;
 }
 
 .reveal section > footer > a.warning:before {
-  content: "\f071";
-  background-color: #FFAA39;
+  content: '\f071';
+  background-color: #ffaa39;
 }
 
 .reveal section > footer > a.danger {
-  background-image: linear-gradient(to left, #FF7D7D 50%, #FF3939 50%);
-  border-color: #FF3939 !important;
+  background-image: linear-gradient(to left, #ff7d7d 50%, #ff3939 50%);
+  border-color: #ff3939 !important;
 }
 
 .reveal section > footer > a.danger:before {
-  content: "\f057";
-  background-color: #FF3939;
+  content: '\f057';
+  background-color: #ff3939;
 }
 
 .reveal section > footer > a.download {
-  background-image: linear-gradient(to left, #8B59AB 50%, #5B227F 50%);
-  border-color: #5B227F !important;
+  background-image: linear-gradient(to left, #8b59ab 50%, #5b227f 50%);
+  border-color: #5b227f !important;
 }
 
 .reveal section > footer > a.download:before {
-  content: "\f019";
-  background-color: #5B227F;
+  content: '\f019';
+  background-color: #5b227f;
 }
 
 .reveal p {
@@ -238,7 +236,7 @@
 
 .reveal .console-error {
   text-align: left;
-  font-family: "Courier New", serif;
+  font-family: 'Courier New', serif;
   font-size: 0.8em;
   padding-left: 32px;
   color: red;
@@ -246,7 +244,7 @@
 }
 
 .reveal .console-error:before {
-  content: "x";
+  content: 'x';
   position: absolute;
   left: 0;
   color: white;
@@ -266,7 +264,6 @@
 }
 
 form.quiz-form {
-
   div.quiz-options {
     display: grid;
     margin: 1em;
@@ -287,20 +284,16 @@ form.quiz-form {
       align-items: center;
       justify-content: space-between;
       padding: 20px;
-      background-color: #00B7FF;
+      background-color: #00b7ff;
       font-size: 2em;
       cursor: pointer;
 
       .counter {
-
       }
-
     }
-
   }
 
   input[type='submit'] {
     font-size: 2em;
   }
-
 }

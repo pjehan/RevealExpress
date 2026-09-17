@@ -4,9 +4,7 @@
     "target": "ES2023",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "strict": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
@@ -15,9 +13,5 @@
     "noUnusedLocals": true,
     "skipLibCheck": true
   },
-  "include": [
-    "vite.config.ts",
-    "src/server",
-    "src/shared"
-  ]
+  "include": ["vite.config.ts", "src/server", "src/shared"]
 }

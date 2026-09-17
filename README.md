@@ -19,7 +19,6 @@ In your console, run:
 npm install -g revealexpress
 ```
 
-
 #### 2 - Launch RevealExpress inside your presentation folder
 
 In your console, navigate to your project folder.
@@ -49,32 +48,35 @@ By default, you must be on the same network.
 #### PrismJS
 
 You can include [PrismJS](https://prismjs.com) in your slideshow using Webpack and [babel-plugin-prismjs](https://www.npmjs.com/package/babel-plugin-prismjs).
- 
+
 ## Configuration
 
 ### Command arguments
- 
-You can pass arguments to the ```revealexpress``` command to customize the slideshow:
+
+You can pass arguments to the `revealexpress` command to customize the slideshow:
+
 ```shell script
 revealexpress -n="My slideshow" -p=5000 --revealjs.slideNumber=0
 ```
 
-You can use the ```--help``` flag to list every available arguments:
+You can use the `--help` flag to list every available arguments:
+
 ```shell script
 revealexpress --help
 ```
 
 You can also use a JavaScript file to send arguments to RevealExpress:
+
 ```js
 module.exports = {
   name: 'My slideshow',
   port: 5000,
   portws: 5001,
   revealjs: {
-    slideNumber: 0    
+    slideNumber: 0,
   },
   stylesheets: ['assets/css/style.css'],
-  javascripts: ['assets/js/script.js']
+  javascripts: ['assets/js/script.js'],
 };
 ```
 
@@ -82,9 +84,10 @@ module.exports = {
 
 RevealJS expose an [API](https://revealjs.com/api/) to let you listen or trigger events and configure the slideshow.
 
-The ```Reveal``` object is accessible once the slideshow has been loaded. You can listen to the 'loaded' event and then use the ```event.detail.Reveal``` object within the listener callback function:
+The `Reveal` object is accessible once the slideshow has been loaded. You can listen to the 'loaded' event and then use the `event.detail.Reveal` object within the listener callback function:
+
 ```js
-document.getElementById('revealexpress').addEventListener('loaded', function(event) {
+document.getElementById('revealexpress').addEventListener('loaded', function (event) {
   event.detail.Reveal.next();
 });
 ```
