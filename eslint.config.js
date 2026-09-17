@@ -6,7 +6,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'test-results', 'playwright-report']),
   js.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -17,6 +17,10 @@ export default defineConfig([
   {
     files: ['src/server/**/*.ts', 'test/**/*.ts', '*.config.{js,ts}'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    files: ['test/e2e/fixture/**/*.js'],
+    languageOptions: { globals: globals.browser },
   },
   prettier,
 ]);

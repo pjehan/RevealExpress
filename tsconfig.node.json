@@ -13,5 +13,5 @@
     "noUnusedLocals": true,
     "skipLibCheck": true
   },
-  "include": ["vite.config.ts", "src/server", "src/shared", "test"]
+  "include": ["vite.config.ts", "playwright.config.ts", "src/server", "src/shared", "test"]
 }

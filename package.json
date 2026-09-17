@@ -29,6 +29,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "node --test \"test/**/*.test.ts\"",
+    "test:e2e": "npm run build && playwright test",
     "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "bin": {
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
     "@types/express": "^5.0.6",
     "@types/node": "^22.20.3",
     "@types/react": "^19.3.0",

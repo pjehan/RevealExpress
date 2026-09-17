@@ -107,6 +107,8 @@ Development requires Node.js 22.18 or later (TypeScript files are run directly b
 npm install
 npm run dev -- --path ../my-awesome-presentation # Server restarts and browser reloads on changes
 npm test
+npx playwright install chromium # Once, before running end-to-end tests
+npm run test:e2e
 npm run lint
 npm run build # Build the package in dist/
 ```
