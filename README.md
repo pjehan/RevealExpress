@@ -10,7 +10,7 @@ Start revealexpress inside your presentation folder, share the URL with your aud
 
 #### 1 - Install RevealExpress globally
 
-You must have [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.org) already installed.
+You must have [NodeJS](https://nodejs.org/en/) 20.19 or later and [NPM](https://www.npmjs.org) already installed.
 In your console, run:
 
 <sup>(You may need to add `sudo` at start)</sup>
@@ -42,6 +42,8 @@ By default, you must be on the same network.
 - Open in default browser
 - Accessible by anyone on the same network
 - Audience can follow your presentation in real time
+- Presenter mode protected by a password
+- Quiz with live answer counters for the presenter
 
 ### Additional features
 
@@ -65,13 +67,13 @@ You can use the `--help` flag to list every available arguments:
 revealexpress --help
 ```
 
-You can also use a JavaScript file to send arguments to RevealExpress:
+You can also create a `slideshow.config.js` file in your presentation folder to send arguments to RevealExpress (command arguments take precedence over this file):
 
 ```js
 module.exports = {
   name: 'My slideshow',
   port: 5000,
-  portws: 5001,
+  password: 'my-secret',
   revealjs: {
     slideNumber: 0,
   },
@@ -93,6 +95,18 @@ document.getElementById('revealexpress').addEventListener('loaded', function (ev
 ```
 
 > :warning: You should always **wait for the slideshow to be loaded** before interacting with it!
+
+## Development
+
+Development requires Node.js 22.18 or later (TypeScript files are run directly by Node.js).
+
+```shell script
+npm install
+npm run dev -- --path ../my-awesome-presentation # Server restarts and browser reloads on changes
+npm test
+npm run lint
+npm run build # Build the package in dist/
+```
 
 ## Credits
 
