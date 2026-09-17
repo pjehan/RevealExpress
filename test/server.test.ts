@@ -40,6 +40,7 @@ async function startServer(config: Partial<Config> = {}) {
       assetspath: '/assets',
       stylesheets: ['assets/style.css'],
       javascripts: ['assets/script.js'],
+      open: false,
       ...config,
     },
     { middleware: (req, res, next) => next(), indexHtml: async () => template },

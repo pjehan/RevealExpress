@@ -33,7 +33,12 @@ describe('loadConfig', () => {
       assetspath: '/assets',
       stylesheets: [],
       javascripts: [],
+      open: true,
     });
+  });
+
+  it('disables opening the browser with --no-open', () => {
+    assert.equal(loadConfig(['--no-open'], createFolder()).open, false);
   });
 
   it('uses values from slideshow.config.js', () => {

@@ -61,6 +61,8 @@ You can pass arguments to the `revealexpress` command to customize the slideshow
 revealexpress -n="My slideshow" -p=5000 --revealjs.slideNumber=0
 ```
 
+On a server, add `--no-open` to avoid opening a browser at startup.
+
 You can use the `--help` flag to list every available arguments:
 
 ```shell script

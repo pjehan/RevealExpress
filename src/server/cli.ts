@@ -10,11 +10,13 @@ import { start } from './start.ts';
 const clientDir = path.join(import.meta.dirname, '..', 'client');
 const indexHtml = fs.readFile(path.join(clientDir, 'index.html'), 'utf-8');
 
+const config = loadConfig(hideBin(process.argv));
+
 await start(
-  loadConfig(hideBin(process.argv)),
+  config,
   {
     middleware: express.static(clientDir, { index: false }),
     indexHtml: () => indexHtml,
   },
-  { openBrowser: true },
+  { openBrowser: config.open },
 );
