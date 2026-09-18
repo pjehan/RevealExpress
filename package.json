@@ -1,6 +1,6 @@
 {
   "name": "revealexpress",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Start RevealJS slideshow with ExpressJS server",
   "keywords": [
     "revealjs",
@@ -40,7 +40,7 @@
     "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "bin": {
-    "revealexpress": "dist/server/cli.js"
+    "revealexpress": "dist/server/bin.cjs"
   },
   "engines": {
     "node": ">=22.12"

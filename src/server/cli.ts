@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import express from 'express';
@@ -12,11 +11,15 @@ const indexHtml = fs.readFile(path.join(clientDir, 'index.html'), 'utf-8');
 
 const config = loadConfig(hideBin(process.argv));
 
-await start(
+// No top-level await: require() cannot load an ES module that uses it
+start(
   config,
   {
     middleware: express.static(clientDir, { index: false }),
     indexHtml: () => indexHtml,
   },
   { openBrowser: config.open },
-);
+).catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});

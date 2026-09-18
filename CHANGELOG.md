@@ -3,6 +3,12 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.1] - 2026-09-18
+
+### Fixed
+
+- Process managers loading the command with `require()`, such as pm2, failed with `ERR_REQUIRE_ESM` or `ERR_REQUIRE_ASYNC_MODULE`: the command is now a CommonJS entry point that imports the ES modules of the package.
+
 ## [2.0.0] - 2026-09-17
 
 ### Breaking changes
