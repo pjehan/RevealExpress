@@ -43,7 +43,7 @@ By default, you must be on the same network.
 - Accessible by anyone on the same network
 - Audience can follow your presentation in real time
 - Presenter mode protected by a password (remembered until the browser tab is closed)
-- Quiz with live answer counters for the presenter
+- Quiz with live answer counters that the presenter can show or hide (hidden by default)
 
 ### Additional features
 

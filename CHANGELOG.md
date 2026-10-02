@@ -3,6 +3,13 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- In presenter mode, a quiz can no longer be answered: its submit button is replaced by a button showing or hiding the participants' results, which are hidden by default.
+- Quiz options are displayed as rounded cards with a visible selection border, and the number of answers is shown in a badge.
+
 ## [2.0.1] - 2026-09-18
 
 ### Fixed

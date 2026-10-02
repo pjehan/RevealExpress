@@ -5,7 +5,8 @@ import type { AppSocket } from './useSocket';
 
 /**
  * Quiz written in slides as <form class="quiz-form"> with inputs in a .quiz-options element:
- * answers are sent when the form is submitted, and the presenter sees a counter for each option.
+ * answers are sent when the form is submitted. The presenter cannot answer: the results (a counter
+ * for each option) are hidden by default and can be shown or hidden with a button.
  */
 export function useQuiz(deck: RevealApi | null, socket: AppSocket, mode: UserMode) {
   useEffect(() => {
@@ -43,6 +44,44 @@ export function useQuiz(deck: RevealApi | null, socket: AppSocket, mode: UserMod
       return;
     }
 
+    // The presenter does not answer: the form is replaced by a button showing or hiding the results
+    const restoreForms: (() => void)[] = [];
+    for (const form of slides.querySelectorAll<HTMLFormElement>('form.quiz-form')) {
+      const inputs = [...form.querySelectorAll('input')];
+      const disabledInputs = inputs.filter((input) => input.disabled);
+      inputs.forEach((input) => (input.disabled = true));
+
+      const submitButtons = [
+        ...form.querySelectorAll<HTMLElement>(
+          'button[type="submit"], input[type="submit"], button:not([type])',
+        ),
+      ];
+      const wasHidden = submitButtons.map((button) => button.hidden);
+      submitButtons.forEach((button) => (button.hidden = true));
+
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.classList.add('quiz-results-toggle');
+      const updateToggle = () => {
+        toggle.textContent = form.classList.contains('show-results')
+          ? 'Hide results'
+          : 'Show results';
+      };
+      toggle.addEventListener('click', () => {
+        form.classList.toggle('show-results');
+        updateToggle();
+      });
+      updateToggle();
+      form.appendChild(toggle);
+
+      restoreForms.push(() => {
+        toggle.remove();
+        form.classList.remove('show-results'); // Results are hidden by default
+        submitButtons.forEach((button, index) => (button.hidden = wasHidden[index]));
+        inputs.forEach((input) => (input.disabled = disabledInputs.includes(input)));
+      });
+    }
+
     const inputs = [...slides.querySelectorAll<HTMLInputElement>('.quiz-options input')];
     const counters = new Map<HTMLInputElement, HTMLElement>();
     for (const input of inputs) {
@@ -53,6 +92,7 @@ export function useQuiz(deck: RevealApi | null, socket: AppSocket, mode: UserMod
       counters.set(input, counter);
     }
 
+    // Answers are counted even while the results are hidden
     const countAnswers = (answers: QuizAnswers) => {
       for (const [name, value] of answers) {
         const input = inputs.find((element) => element.name === name && element.value === value);
@@ -67,6 +107,7 @@ export function useQuiz(deck: RevealApi | null, socket: AppSocket, mode: UserMod
     return () => {
       socket.off('quizsubmitted', countAnswers);
       counters.forEach((counter) => counter.remove());
+      restoreForms.forEach((restore) => restore());
     };
   }, [deck, socket, mode]);
 }

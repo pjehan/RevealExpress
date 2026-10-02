@@ -90,21 +90,33 @@ test('spectators follow the presenter immediately', async ({ browser }) => {
   await expect(spectator).toHaveURL(/#\/2$/);
 });
 
-test('counts quiz answers for the presenter', async ({ browser }) => {
+test('presenter shows and hides quiz results instead of answering', async ({ browser }) => {
   const presenter = await newPage(browser);
   const spectator = await newPage(browser);
+  const blinkCounter = presenter.locator('label[for="input-blink"] .counter');
+  const geckoCounter = presenter.locator('label[for="input-gecko"] .counter');
 
   await openSlideshow(presenter, QUIZ_SLIDE);
   await becomePresenter(presenter);
-  await expect(presenter.locator('label[for="input-blink"] .counter')).toHaveText('0');
+
+  // The presenter cannot answer, and the results are hidden by default
+  await expect(presenter.locator('#input-blink')).toBeDisabled();
+  await expect(presenter.getByRole('button', { name: 'Submit' })).toBeHidden();
+  await expect(blinkCounter).toBeHidden();
 
   await openSlideshow(spectator, QUIZ_SLIDE);
+  await expect(spectator.getByRole('button', { name: 'Show results' })).toHaveCount(0);
   await spectator.locator('label[for="input-blink"]').click();
   await spectator.getByRole('button', { name: 'Submit' }).click();
   await expect(spectator.locator('#input-blink')).toBeDisabled();
 
-  await expect(presenter.locator('label[for="input-blink"] .counter')).toHaveText('1');
-  await expect(presenter.locator('label[for="input-gecko"] .counter')).toHaveText('0');
+  // Answers are counted while the results are hidden
+  await presenter.getByRole('button', { name: 'Show results' }).click();
+  await expect(blinkCounter).toHaveText('1');
+  await expect(geckoCounter).toHaveText('0');
+
+  await presenter.getByRole('button', { name: 'Hide results' }).click();
+  await expect(blinkCounter).toBeHidden();
 });
 
 test('toolbar can be used with the keyboard', async ({ page }) => {

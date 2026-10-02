@@ -268,8 +268,7 @@ form.quiz-form {
     display: grid;
     margin: 1em;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1em;
-    grid-row-gap: 1em;
+    gap: 1em;
 
     /* Visually hidden but still focusable with the keyboard */
     input {
@@ -279,7 +278,38 @@ form.quiz-form {
       opacity: 0;
     }
 
+    label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 16px 20px;
+      border: 4px solid transparent;
+      border-radius: 12px;
+      color: #002b36;
+      background-color: #00b7ff;
+      box-shadow: 0 4px 0 rgb(0 43 54 / 30%);
+      font-size: 1.5em;
+      text-align: left;
+      cursor: pointer;
+      transition:
+        transform 0.15s ease-out,
+        background-color 0.15s ease-out;
+    }
+
+    input:not(:disabled) + label:hover {
+      transform: translateY(-2px);
+      background-color: #33c6ff;
+    }
+
+    /* Answers are locked (already sent, or presenter): nothing to click */
+    input:disabled + label {
+      cursor: default;
+    }
+
+    /* The border keeps the selection visible without relying on the color only */
     input:checked + label {
+      border-color: #002b36;
       background-color: #17ff2e;
     }
 
@@ -288,21 +318,81 @@ form.quiz-form {
       outline-offset: 4px;
     }
 
-    label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      background-color: #00b7ff;
-      font-size: 2em;
-      cursor: pointer;
+    /* Room for the counter (presenter only), reserved even when the results are hidden */
+    label:has(.counter) {
+      padding-right: calc(20px + 2.4em);
+    }
 
-      .counter {
-      }
+    /* Number of answers for the option, displayed to the presenter: out of the flow, so showing
+       the results never changes the size of the options */
+    .counter {
+      position: absolute;
+      inset-block: 0;
+      right: 20px;
+      height: fit-content;
+      margin-block: auto;
+      box-sizing: border-box;
+      min-width: 1.6em;
+      padding: 0 0.4em;
+      border-radius: 999px;
+      color: #fdf6e3;
+      background-color: #002b36;
+      font-size: 0.7em;
+      font-weight: bold;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.6;
+      text-align: center;
+      animation: quiz-counter-in 0.25s ease-out;
     }
   }
 
+  /* Results are only shown to the presenter, when asked */
+  &:not(.show-results) .counter {
+    display: none;
+  }
+
+  /* Same width for "Show results" and "Hide results" */
+  .quiz-results-toggle {
+    min-width: 8em;
+  }
+
+  button,
   input[type='submit'] {
-    font-size: 2em;
+    padding: 0.2em 1em;
+    border: none;
+    border-radius: 8px;
+    color: #fdf6e3;
+    background-color: #002b36;
+    font-family: inherit;
+    font-size: 1.5em;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0b4a5a;
+    }
+
+    &:focus-visible {
+      outline: 4px solid #00b7ff;
+      outline-offset: 4px;
+    }
+  }
+}
+
+@keyframes quiz-counter-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  form.quiz-form div.quiz-options {
+    label {
+      transition: none;
+    }
+
+    .counter {
+      animation: none;
+    }
   }
 }
