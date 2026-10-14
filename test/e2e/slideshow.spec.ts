@@ -2,6 +2,7 @@ import { expect, test, type Browser, type Page } from '@playwright/test';
 
 const PASSWORD = 'secret';
 const QUIZ_SLIDE = 3;
+const CODE_SLIDE = 4;
 
 async function openSlideshow(page: Page, slide = 0) {
   await page.goto(`/#/${slide}`);
@@ -35,7 +36,7 @@ test('loads chapters in alphabetical order and runs presentation scripts', async
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
   await expect(page.getByRole('heading', { name: 'Introduction' })).toBeVisible();
   // Set by the presentation script when the "loaded" event is dispatched
-  await expect(page.locator('body')).toHaveAttribute('data-total-slides', '4');
+  await expect(page.locator('body')).toHaveAttribute('data-total-slides', '6');
 });
 
 test('asks the presenter password in a masked field', async ({ page }) => {
@@ -117,6 +118,30 @@ test('presenter shows and hides quiz results instead of answering', async ({ bro
 
   await presenter.getByRole('button', { name: 'Hide results' }).click();
   await expect(blinkCounter).toBeHidden();
+});
+
+test('prepares Prism line highlights before the presentation script runs', async ({ page }) => {
+  await openSlideshow(page, CODE_SLIDE);
+
+  // data-line follows data-start's numbering: Prism needs the offset, unless the author sets it
+  await expect(page.locator('#numbered')).toHaveAttribute('data-offset-at-load', '44');
+  await expect(page.locator('#explicit')).toHaveAttribute('data-offset-at-load', '10');
+  await expect(page.locator('#plain')).toHaveAttribute('data-offset-at-load', 'none');
+});
+
+test('measures Prism line highlights again when a slide is displayed', async ({ page }) => {
+  await openSlideshow(page, CODE_SLIDE);
+
+  // Only the current slide is measured: the other ones are hidden, so they have no height yet
+  await expect(page.locator('#numbered')).toHaveAttribute('data-highlighted', '1');
+  await expect(page.locator('#explicit')).not.toHaveAttribute('data-highlighted', /.*/);
+
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#explicit')).toHaveAttribute('data-highlighted', '1');
+  await expect(page.locator('#plain')).toHaveAttribute('data-highlighted', '1');
+
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.locator('#numbered')).toHaveAttribute('data-highlighted', '2');
 });
 
 test('toolbar can be used with the keyboard', async ({ page }) => {

@@ -3,6 +3,7 @@ import Reveal, { type RevealApi } from 'reveal.js';
 import type { PublicConfig, UserMode } from '../../shared/types';
 import { fetchChapters } from '../api';
 import { escapeCodeTags } from '../chapters';
+import { alignLineOffsets, keepLineHighlightsMeasured } from '../lineHighlight';
 import { useQuiz } from '../hooks/useQuiz';
 import { useSlideSync } from '../hooks/useSlideSync';
 import type { AppSocket } from '../hooks/useSocket';
@@ -57,12 +58,14 @@ export default function Slideshow({ config, socket, mode, follow }: SlideshowPro
         return;
       }
       setDeck(newDeck);
+      alignLineOffsets(element);
       // Let presentation scripts interact with the slideshow
       document.getElementById('revealexpress')?.dispatchEvent(
         new CustomEvent('loaded', {
           detail: { config: { name: config.name, port: config.port }, Reveal: newDeck },
         }),
       );
+      keepLineHighlightsMeasured(newDeck);
     });
     deckQueue.current = initialized.catch(console.error);
 

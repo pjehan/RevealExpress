@@ -51,6 +51,8 @@ By default, you must be on the same network.
 
 You can include [PrismJS](https://prismjs.com) in your slideshow using Webpack and [babel-plugin-prismjs](https://www.npmjs.com/package/babel-plugin-prismjs).
 
+With the `line-numbers` and `line-highlight` plugins, `data-line` follows the line numbers shown (`<pre class="line-numbers" data-start="45" data-line="61-63">` highlights lines 61 to 63, numbered from 45). RevealExpress sets `data-line-offset` for you, so call `Prism.highlightAll()` in the `loaded` event, and it recomputes the highlights each time a slide is displayed.
+
 ## Configuration
 
 ### Command arguments

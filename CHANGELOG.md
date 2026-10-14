@@ -3,6 +3,15 @@
 All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- PrismJS line highlighting (`data-line`) is now correct in every slideshow:
+  - With `data-start`, `data-line` uses the displayed line numbers: RevealExpress sets `data-line-offset` before the `loaded` event, unless it is already set (previously, ranges beyond the length of the block were silently ignored).
+  - The highlights of the slides hidden at load had no height: they are measured again each time a slide is displayed (needs Prism's `line-highlight` plugin, bundled by the slideshow).
+  - The highlights no longer have a hard-coded 20px top margin, which shifted them whenever the `<pre>` padding was not 20px: Prism's own `1em` margin applies again.
+
 ## [2.1.0] - 2026-10-02
 
 ### Changed
